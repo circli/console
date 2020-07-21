@@ -16,6 +16,15 @@ composer require circli/console
 
 ## Usage
 
+#### Definition
+
+The definition object handles everything related to how the command is called. And must extend `\Circli\Console\Definition`.
+
+#### Command
+
+The command can be anything `callable` and **must** return an integer.
+
+So any class you want to use as a command need to implement `__invoke(InputInterface $input, OutputInterface $output): int`. 
 
 ### Most basic definition
 
