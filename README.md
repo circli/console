@@ -4,8 +4,9 @@
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 [![Build Status](https://github.com/circli/console/workflows/Unit%20Tests/badge.svg)](https://github.com/sunkan/enum/actions)
 
-I created this package to have a more lightweight symfony console application.
-I found it annoying that the definition was in the same class as the actual command and that made it hard to use Di container to handle dependencies.
+I created this package to have a more lightweight initialization of symfony console applications.
+It's a bit annoying if a class dose auto connect to something remote, and it needs todo that when you list the commands or run something not connected to the remote service.
+So I split the definition and command into 2 parts one for the definition and one for the command. And the command is not initialized until it's needed.
 
 ## Installation
 
