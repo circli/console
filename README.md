@@ -3,9 +3,11 @@
 
 [![Latest Version](https://img.shields.io/github/release/circli/console.svg?style=flat-square)](https://github.com/circli/console/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
-[![Build Status](https://github.com/circli/console/workflows/Unit%20Tests/badge.svg)](https://github.com/circli/console/actions)
+[![Build Status](https://github.com/circli/console/workflows/Unit%20Tests/badge.svg)](https://github.com/sunkan/enum/actions)
 
-I created this package so that apps can be lighter by not having to initialize all command dependencies for all commands. 
+
+I created this package to have a more lightweight symfony console application.
+I found it annoying that the definition was in the same class as the actual command and that made it hard to use Di container to handle dependencies.
 
 ## Installation
 
@@ -80,7 +82,7 @@ If you pass in the container command resolver it will try resolving the command 
 
 You can write your own resolver logic if you don't want to pass in the container like this
 
-```php
+```
 use Circli\Console\Application;
 use Circli\Console\ContainerCommandResolver;
 use Circli\Console\Definition;
