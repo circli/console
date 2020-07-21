@@ -48,7 +48,7 @@ class ExampleInput extends \Circli\Console\AbstractInput
 {
     public function getFrom(): \DateTimeInterface
     {
-        $rawDate = $this->getAttribute('from') ?: 'now';
+        $rawDate = $this->getArgument('from') ?: 'now';
         
         return new \DateTimeImmutable($rawDate);
     }
@@ -82,7 +82,7 @@ If you pass in the container command resolver it will try resolving the command 
 
 You can write your own resolver logic if you don't want to pass in the container like this
 
-```
+```php
 use Circli\Console\Application;
 use Circli\Console\ContainerCommandResolver;
 use Circli\Console\Definition;
