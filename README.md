@@ -1,10 +1,8 @@
-# Circli Console
-
+# Circli Console - Wrapper around symfony console
 
 [![Latest Version](https://img.shields.io/github/release/circli/console.svg?style=flat-square)](https://github.com/circli/console/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 [![Build Status](https://github.com/circli/console/workflows/Unit%20Tests/badge.svg)](https://github.com/sunkan/enum/actions)
-
 
 I created this package to have a more lightweight symfony console application.
 I found it annoying that the definition was in the same class as the actual command and that made it hard to use Di container to handle dependencies.
