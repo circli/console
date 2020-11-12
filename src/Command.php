@@ -17,7 +17,11 @@ final class Command extends \Symfony\Component\Console\Command\Command
 		if (!$definition->getCommand()) {
 			throw new \InvalidArgumentException('Definition don\'t contain any command to execute');
 		}
-		parent::__construct($definition->getName());
+		$commandName = $definition->getName();
+		if (!$commandName) {
+			$commandName = CommandNaming::classToName(get_class($definition));
+		}
+		parent::__construct($commandName);
 		$this->setDefinition($definition->getDefinition());
 		$this->setDescription($definition->getDescription()??'');
 		$this->setAliases($definition->getAliases());

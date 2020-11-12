@@ -5,6 +5,7 @@ namespace Circli\Console\Tests;
 use Circli\Console\Command;
 use Circli\Console\SimpleCommandResolver;
 use Circli\Console\Tests\Fixtures\CommandDefinition;
+use Circli\Console\Tests\Fixtures\COMMANDWithoutNameDefinition;
 use Circli\Console\Tests\Fixtures\CustomInput;
 use Circli\Console\Tests\Fixtures\InvalidDefinition;
 use PHPUnit\Framework\TestCase;
@@ -39,5 +40,13 @@ class CommandTest extends TestCase
 		$definition = new InvalidDefinition();
 		$this->expectException(\InvalidArgumentException::class);
 		$definition->setCommand(1);
+	}
+
+	public function testAutoCreateName(): void
+	{
+		$definition = new COMMANDWithoutNameDefinition();
+		$command = new Command($definition, new SimpleCommandResolver());
+
+		$this->assertSame('command-without-name', $command->getName());
 	}
 }
