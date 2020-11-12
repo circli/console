@@ -18,7 +18,7 @@ composer require circli/console
 
 #### Definition
 
-The definition object handles everything related to how the command is called. And must extend `\Circli\Console\Definition`.
+The definition object handles everything related to how the command is called. And **must** extend `\Circli\Console\Definition`.
 
 #### Command
 
