@@ -7,10 +7,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class Command extends \Symfony\Component\Console\Command\Command
 {
-	/** @var Definition */
-	private $definition;
-	/** @var CommandResolver */
-	private $resolver;
+	private Definition $definition;
+	private CommandResolver $resolver;
 
 	public function __construct(Definition $definition, CommandResolver $resolver = null)
 	{
@@ -23,13 +21,13 @@ final class Command extends \Symfony\Component\Console\Command\Command
 		}
 		parent::__construct($commandName);
 		$this->setDefinition($definition->getDefinition());
-		$this->setDescription($definition->getDescription()??'');
+		$this->setDescription($definition->getDescription() ?? '');
 		$this->setAliases($definition->getAliases());
 		foreach ($definition->getUsages() as $usage) {
 			$this->addUsage($usage);
 		}
 		$this->definition = $definition;
-		$this->resolver = $resolver;
+		$this->resolver = $resolver ?? new SimpleCommandResolver();
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int

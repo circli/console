@@ -2,13 +2,13 @@
 
 namespace Circli\Console;
 
+use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 
 abstract class AbstractInput implements InputInterface
 {
-	/** @var InputInterface */
-	protected $input;
+	protected ?InputInterface $input = null;
 
 	public function setInput(InputInterface $input): void
 	{
@@ -20,78 +20,140 @@ abstract class AbstractInput implements InputInterface
 		return $this->input instanceof InputInterface;
 	}
 
-	public function getFirstArgument()
+	public function getFirstArgument(): ?string
 	{
+		if (!$this->input) {
+			return null;
+		}
 		return $this->input->getFirstArgument();
 	}
 
-	public function hasParameterOption($values, bool $onlyParams = false)
+	/**
+	 * @param string|list<string> $values
+	 */
+	public function hasParameterOption($values, bool $onlyParams = false): bool
 	{
+		if (!$this->input) {
+			return false;
+		}
 		return $this->input->hasParameterOption($values, $onlyParams);
 	}
 
+	/**
+	 * @param string|list<string> $values
+	 * @param string|bool|int|float|mixed[]|null $default
+	 */
 	public function getParameterOption($values, $default = false, bool $onlyParams = false)
 	{
+		if (!$this->input) {
+			return $default;
+		}
 		return $this->input->getParameterOption($values, $default, $onlyParams);
 	}
 
-	public function bind(InputDefinition $definition)
+	public function bind(InputDefinition $definition): void
 	{
-		return $this->input->bind($definition);
+		if ($this->input) {
+			$this->input->bind($definition);
+		}
 	}
 
-	public function validate()
+	public function validate(): void
 	{
-		return $this->input->validate();
+		if ($this->input) {
+			$this->input->validate();
+		}
 	}
 
-	public function getArguments()
+	/**
+	 * @return array<string|bool|int|float|mixed[]|null>
+	 */
+	public function getArguments(): array
 	{
+		if (!$this->input) {
+			return [];
+		}
 		return $this->input->getArguments();
 	}
 
 	public function getArgument(string $name)
 	{
+		if (!$this->input) {
+			throw new InvalidArgumentException(sprintf('The "%s" argument does not exist.', $name));
+		}
 		return $this->input->getArgument($name);
 	}
 
-	public function setArgument(string $name, $value)
+	/**
+	 * @param mixed $value
+	 */
+	public function setArgument(string $name, $value): void
 	{
-		return $this->input->setArgument($name, $value);
+		if ($this->input) {
+			$this->input->setArgument($name, $value);
+		}
 	}
 
-	public function hasArgument($name)
+	public function hasArgument(string $name): bool
 	{
+		if (!$this->input) {
+			return false;
+		}
 		return $this->input->hasArgument($name);
 	}
 
-	public function getOptions()
+	/**
+	 * @return array<string|bool|int|float|mixed[]|null>
+	 */
+	public function getOptions(): array
 	{
+		if (!$this->input) {
+			return [];
+		}
 		return $this->input->getOptions();
 	}
 
+	/**
+	 * @return mixed
+	 */
 	public function getOption(string $name)
 	{
+		if (!$this->input) {
+			throw new InvalidArgumentException(sprintf('The "%s" option does not exist.', $name));
+		}
 		return $this->input->getOption($name);
 	}
 
-	public function setOption(string $name, $value)
+	/**
+	 * @param mixed $value
+	 */
+	public function setOption(string $name, $value): void
 	{
-		$this->input->setOption($name, $value);
+		if ($this->input) {
+			$this->input->setOption($name, $value);
+		}
 	}
 
-	public function hasOption(string $name)
+	public function hasOption(string $name): bool
 	{
+		if (!$this->input) {
+			return false;
+		}
 		return $this->input->hasOption($name);
 	}
 
-	public function isInteractive()
+	public function isInteractive(): bool
 	{
+		if (!$this->input) {
+			return false;
+		}
 		return $this->input->isInteractive();
 	}
 
-	public function setInteractive(bool $interactive)
+	public function setInteractive(bool $interactive): void
 	{
-		return $this->input->setInteractive($interactive);
+		if ($this->input) {
+			$this->input->setInteractive($interactive);
+		}
 	}
 }

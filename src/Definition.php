@@ -11,16 +11,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 abstract class Definition
 {
-	/** @var InputDefinition */
-	private $definition;
-	/** @var string|null */
-	private $name;
-	/** @var string|null */
-	private $description;
-	/** @var string[] */
-	private $aliases = [];
-	/** @var string[] */
-	private $usages = [];
+	private InputDefinition $definition;
+	private ?string $name = null;
+	private ?string $description = null;
+	/** @var list<string> */
+	private array $aliases = [];
+	/** @var list<string> */
+	private array $usages = [];
 	/** @var string|callable|null */
 	private $command;
 
@@ -38,7 +35,6 @@ abstract class Definition
 	 *
 	 * @return $this
 	 * @throws InvalidArgumentException When argument mode is not valid
-	 *
 	 */
 	public function addArgument(string $name, int $mode = null, string $description = '', $default = null)
 	{
@@ -50,13 +46,12 @@ abstract class Definition
 	/**
 	 * Adds an option.
 	 *
-	 * @param string|array|null $shortcut The shortcuts, can be null, a string of shortcuts delimited by | or an array of shortcuts
+	 * @param string|list<string>|null $shortcut The shortcuts, can be null, a string of shortcuts delimited by | or an array of shortcuts
 	 * @param int|null $mode The option mode: One of the InputOption::VALUE_* constants
 	 * @param string|string[]|int|bool|null $default The default value (must be null for InputOption::VALUE_NONE)
 	 *
 	 * @return $this
 	 * @throws InvalidArgumentException If option mode is invalid or incompatible
-	 *
 	 */
 	public function addOption(string $name, $shortcut = null, int $mode = null, string $description = '', $default = null)
 	{
@@ -72,7 +67,7 @@ abstract class Definition
 	 */
 	public function addUsage(string $usage)
 	{
-		if (0 !== strpos($usage, $this->name)) {
+		if (strpos($usage, (string)$this->name) !== 0) {
 			$usage = sprintf('%s %s', $this->name, $usage);
 		}
 
@@ -94,7 +89,7 @@ abstract class Definition
 			$this->validateName($alias);
 		}
 
-		$this->aliases = $aliases;
+		$this->aliases = is_array($aliases) ? $aliases : iterator_to_array($aliases);
 
 		return $this;
 	}
@@ -151,14 +146,15 @@ abstract class Definition
 	 * Command can be any callable type or a string to be fetched
 	 * from container
 	 *
-	 * @param string|callable $command
+	 * @param string|object|callable $command
 	 * @return $this
 	 * @throws InvalidArgumentException When the type is invalid
 	 */
 	public function setCommand($command): self
 	{
 		if (!is_callable($command) && !is_string($command)) {
-			throw new InvalidArgumentException(sprintf('Command type "%s" is invalid.', get_debug_type($command)));
+			$type = function_exists('get_debug_type') ? get_debug_type($command) : gettype($command);
+			throw new InvalidArgumentException(sprintf('Command type "%s" is invalid.', $type));
 		}
 
 		$this->command = $command;
@@ -181,11 +177,17 @@ abstract class Definition
 		return $this->description;
 	}
 
+	/**
+	 * @return list<string>
+	 */
 	public function getAliases(): array
 	{
 		return $this->aliases;
 	}
 
+	/**
+	 * @return list<string>
+	 */
 	public function getUsages(): array
 	{
 		return $this->usages;

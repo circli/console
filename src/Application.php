@@ -7,8 +7,7 @@ use Symfony\Component\Console\Command\Command as SymfonyCommand;
 
 class Application extends SymfonyApplication
 {
-	/** @var CommandResolver */
-	private $resolver;
+	private CommandResolver $resolver;
 
 	public function __construct(CommandResolver $resolver = null)
 	{
@@ -16,7 +15,7 @@ class Application extends SymfonyApplication
 		$this->resolver = $resolver ?? new SimpleCommandResolver();
 	}
 
-	public function addDefinition(Definition $definition): SymfonyCommand
+	public function addDefinition(Definition $definition): ?SymfonyCommand
 	{
 		return $this->add($this->createCommand($definition));
 	}

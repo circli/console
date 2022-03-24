@@ -6,8 +6,7 @@ use Psr\Container\ContainerInterface;
 
 final class ContainerCommandResolver implements CommandResolver
 {
-	/** @var ContainerInterface */
-	private $container;
+	private ContainerInterface $container;
 
 	public function __construct(ContainerInterface $container)
 	{
@@ -20,6 +19,15 @@ final class ContainerCommandResolver implements CommandResolver
 			return $command;
 		}
 
-		return $this->container->get($command);
+		if (!is_string($command)) {
+			throw new \InvalidArgumentException('Command must be string to be resolved from container');
+		}
+
+		$resolvedCommand = $this->container->get($command);
+		if (!is_callable($resolvedCommand)) {
+			throw new \InvalidArgumentException('Command must be callable');
+		}
+
+		return $resolvedCommand;
 	}
 }
