@@ -2,7 +2,8 @@
 
 [![Latest Version](https://img.shields.io/github/release/circli/console.svg?style=flat-square)](https://github.com/circli/console/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
-[![Build Status](https://github.com/circli/console/workflows/Unit%20Tests/badge.svg)](https://github.com/circli(console/actions)
+[![Build Status](https://github.com/circli/console/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/circli/console/actions/workflows/unit-tests.yml)
+[![Coverage Status](https://coveralls.io/repos/github/circli/console/badge.svg?branch=master)](https://coveralls.io/github/circli/console?branch=master)
 
 I created this package to have a more lightweight initialization of symfony console applications.
 It's a bit annoying if a class dose auto connect to something remote, and it needs todo that when you list the commands or run something not connected to the remote service.
