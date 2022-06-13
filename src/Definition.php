@@ -67,7 +67,7 @@ abstract class Definition
 	 */
 	public function addUsage(string $usage)
 	{
-		if (strpos($usage, (string)$this->name) !== 0) {
+		if ($this->name && strpos($usage, (string)$this->name) !== 0) {
 			$usage = sprintf('%s %s', $this->name, $usage);
 		}
 
