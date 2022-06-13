@@ -106,6 +106,18 @@ $application->addDefinition(new class extends Definition {
 $application->run();
 ```
 
+### Using with regular Symfony console
+```php
+use Symfony\Component\Console\Application;
+use Circli\Console\Command;
+
+$application = new Application();
+$application->add(new \Circli\Console\Command(new CmdDefinition()));
+$application->run();
+```
+
+
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE) for more information.
