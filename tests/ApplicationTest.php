@@ -16,12 +16,4 @@ class ApplicationTest extends TestCase
 
 		$this->assertTrue($application->has('test:foo'));
 	}
-
-	public function testCustomCommandNotFoundLogic()
-	{
-		$application = new Application(new SimpleCommandResolver());
-
-		$this->assertTrue($application->has('test:foo'));
-
-	}
 }
