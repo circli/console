@@ -33,11 +33,11 @@ final class Command extends \Symfony\Component\Console\Command\Command
 	protected function execute(InputInterface $input, OutputInterface $output): int
 	{
 		$orgInput = $input;
-		$input = $this->definition->transformInput($input);
+		$input = $this->definition->transformInput($input, $output);
 		if ($input instanceof AbstractInput && !$input->hasInput()) {
 			$input->setInput($orgInput);
 		}
-		$output = $this->definition->transformOutput($output);
+		$output = $this->definition->transformOutput($output, $input);
 		$command = $this->resolver->createCommand($this->definition->getCommand());
 		return $command($input, $output);
 	}

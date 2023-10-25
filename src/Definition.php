@@ -203,12 +203,12 @@ abstract class Definition
 		return $this->command;
 	}
 
-	public function transformInput(InputInterface $input): InputInterface
+	public function transformInput(InputInterface $input, OutputInterface $output): InputInterface
 	{
 		return $input;
 	}
 
-	public function transformOutput(OutputInterface $output): OutputInterface
+	public function transformOutput(OutputInterface $output, InputInterface $input): OutputInterface
 	{
 		return $output;
 	}
