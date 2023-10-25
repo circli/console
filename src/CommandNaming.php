@@ -2,11 +2,6 @@
 
 namespace Circli\Console;
 
-use Symfony\Component\Console\Command\Command;
-
-/**
- * @see \Symplify\PackageBuilder\Tests\Console\Command\CommandNamingTest
- */
 final class CommandNaming
 {
 	/**

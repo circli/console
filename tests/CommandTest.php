@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Circli\Console\Tests;
 
@@ -38,8 +38,15 @@ class CommandTest extends TestCase
 	public function testSetInvalidCommand(): void
 	{
 		$definition = new InvalidDefinition();
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(\TypeError::class);
 		$definition->setCommand(1);
+	}
+
+	public function testSetInvalidCommandObject(): void
+	{
+		$definition = new InvalidDefinition();
+		$this->expectException(\InvalidArgumentException::class);
+		$definition->setCommand(new class {});
 	}
 
 	public function testAutoCreateName(): void

@@ -5,8 +5,8 @@ namespace Circli\Console;
 interface CommandResolver
 {
 	/**
-	 * @param string|callable|null $command
+	 * @param callable|string|null $command
 	 * @return callable
 	 */
-	public function createCommand($command): callable;
+	public function createCommand(callable|string|null $command): callable;
 }

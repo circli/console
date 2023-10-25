@@ -22,10 +22,7 @@ abstract class AbstractInput implements InputInterface
 
 	public function getFirstArgument(): ?string
 	{
-		if (!$this->input) {
-			return null;
-		}
-		return $this->input->getFirstArgument();
+		return $this->input?->getFirstArgument();
 	}
 
 	/**
@@ -53,16 +50,12 @@ abstract class AbstractInput implements InputInterface
 
 	public function bind(InputDefinition $definition): void
 	{
-		if ($this->input) {
-			$this->input->bind($definition);
-		}
+		$this->input?->bind($definition);
 	}
 
 	public function validate(): void
 	{
-		if ($this->input) {
-			$this->input->validate();
-		}
+		$this->input?->validate();
 	}
 
 	/**
@@ -89,9 +82,7 @@ abstract class AbstractInput implements InputInterface
 	 */
 	public function setArgument(string $name, $value): void
 	{
-		if ($this->input) {
-			$this->input->setArgument($name, $value);
-		}
+		$this->input?->setArgument($name, $value);
 	}
 
 	public function hasArgument(string $name): bool
@@ -129,9 +120,7 @@ abstract class AbstractInput implements InputInterface
 	 */
 	public function setOption(string $name, $value): void
 	{
-		if ($this->input) {
-			$this->input->setOption($name, $value);
-		}
+		$this->input?->setOption($name, $value);
 	}
 
 	public function hasOption(string $name): bool
@@ -152,8 +141,6 @@ abstract class AbstractInput implements InputInterface
 
 	public function setInteractive(bool $interactive): void
 	{
-		if ($this->input) {
-			$this->input->setInteractive($interactive);
-		}
+		$this->input?->setInteractive($interactive);
 	}
 }

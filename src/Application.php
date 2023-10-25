@@ -7,12 +7,10 @@ use Symfony\Component\Console\Command\Command as SymfonyCommand;
 
 class Application extends SymfonyApplication
 {
-	private CommandResolver $resolver;
-
-	public function __construct(CommandResolver $resolver = null)
-	{
+	public function __construct(
+		private readonly CommandResolver $resolver = new SimpleCommandResolver(),
+	) {
 		parent::__construct();
-		$this->resolver = $resolver ?? new SimpleCommandResolver();
 	}
 
 	public function addDefinition(Definition $definition): ?SymfonyCommand

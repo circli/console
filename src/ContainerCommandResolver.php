@@ -6,14 +6,11 @@ use Psr\Container\ContainerInterface;
 
 final class ContainerCommandResolver implements CommandResolver
 {
-	private ContainerInterface $container;
+	public function __construct(
+		private readonly ContainerInterface $container,
+	) {}
 
-	public function __construct(ContainerInterface $container)
-	{
-		$this->container = $container;
-	}
-
-	public function createCommand($command): callable
+	public function createCommand(callable|string|null $command): callable
 	{
 		if (is_callable($command)) {
 			return $command;

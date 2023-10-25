@@ -6,6 +6,7 @@ use Circli\Console\Definition;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 final class CommandDefinition extends Definition
 {
@@ -23,7 +24,7 @@ final class CommandDefinition extends Definition
 		});
 	}
 
-	public function transformInput(InputInterface $input): InputInterface
+	public function transformInput(InputInterface $input, OutputInterface $output): InputInterface
 	{
 		return new CustomInput();
 	}

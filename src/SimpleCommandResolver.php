@@ -4,7 +4,7 @@ namespace Circli\Console;
 
 final class SimpleCommandResolver implements CommandResolver
 {
-	public function createCommand($command): callable
+	public function createCommand(callable|string|null $command): callable
 	{
 		if (!is_callable($command)) {
 			throw new \InvalidArgumentException('Command must be callable');
