@@ -31,7 +31,7 @@ abstract class Definition
 	 * Adds an argument.
 	 *
 	 * @param int|null $mode The argument mode: InputArgument::REQUIRED or InputArgument::OPTIONAL
-	 * @param string|bool|int|float|array|null $default The default value (for InputArgument::OPTIONAL mode only)
+	 * @param string|bool|int|float|array<mixed>|null $default The default value (for InputArgument::OPTIONAL mode only)
 	 *
 	 * @return $this
 	 * @throws InvalidArgumentException When argument mode is not valid
