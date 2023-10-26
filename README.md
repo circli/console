@@ -50,7 +50,7 @@ $application->run();
 
 ### Using custom input
 
-You can transform input into custom input types to have better typehinting and control over what is passed into a command
+You can transform input into custom input types to have better type hinting and control over what is passed into a command
 
 ```php
 class ExampleInput extends \Circli\Console\AbstractInput
@@ -75,7 +75,7 @@ class ExampleCommandDefinition extends \Circli\Console\Definition
         });
     }
     
-    public function transformInput(InputInterface $input): InputInterface
+    public function transformInput(InputInterface $input, OutputInterface $output): InputInterface
     {
         return new ExampleInput();
     }
@@ -116,8 +116,6 @@ $application = new Application();
 $application->add(new \Circli\Console\Command(new CmdDefinition()));
 $application->run();
 ```
-
-
 
 ## License
 
