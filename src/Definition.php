@@ -2,6 +2,9 @@
 
 namespace Circli\Console;
 
+use Symfony\Component\Console\Completion\CompletionInput;
+use Symfony\Component\Console\Completion\CompletionSuggestions;
+use Symfony\Component\Console\Completion\Suggestion;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
@@ -20,6 +23,8 @@ abstract class Definition
 	private array $usages = [];
 	/** @var string|callable|null */
 	private $command;
+	/** @var array<string|callable> */
+	private array $completions = [];
 
 	public function __construct()
 	{
@@ -32,6 +37,7 @@ abstract class Definition
 	 *
 	 * @param int|null $mode The argument mode: InputArgument::REQUIRED or InputArgument::OPTIONAL
 	 * @param string|bool|int|float|array<mixed>|null $default The default value (for InputArgument::OPTIONAL mode only)
+	 * @param list<string>|\Closure(CompletionInput,CompletionSuggestions):list<string|Suggestion> $suggestedValues The values used for input completion
 	 *
 	 * @return $this
 	 * @throws InvalidArgumentException When argument mode is not valid
@@ -41,8 +47,9 @@ abstract class Definition
 		int $mode = null,
 		string $description = '',
 		string|bool|int|float|array $default = null,
+		\Closure|array $suggestedValues = [],
 	): static {
-		$this->definition->addArgument(new InputArgument($name, $mode, $description, $default));
+		$this->definition->addArgument(new InputArgument($name, $mode, $description, $default, $suggestedValues));
 
 		return $this;
 	}
@@ -53,6 +60,7 @@ abstract class Definition
 	 * @param string|list<string>|null $shortcut The shortcuts, can be null, a string of shortcuts delimited by | or an array of shortcuts
 	 * @param int|null $mode The option mode: One of the InputOption::VALUE_* constants
 	 * @param bool|int|string|string[]|null $default The default value (must be null for InputOption::VALUE_NONE)
+	 * @param list<string>|\Closure(CompletionInput,CompletionSuggestions):list<string|Suggestion> $suggestedValues The values used for input completion
 	 *
 	 * @throws InvalidArgumentException If option mode is invalid or incompatible
 	 */
@@ -62,8 +70,9 @@ abstract class Definition
 		int $mode = null,
 		string $description = '',
 		array|bool|int|string $default = null,
+		\Closure|array $suggestedValues = [],
 	): static {
-		$this->definition->addOption(new InputOption($name, $shortcut, $mode, $description, $default));
+		$this->definition->addOption(new InputOption($name, $shortcut, $mode, $description, $default, $suggestedValues));
 
 		return $this;
 	}
@@ -161,6 +170,35 @@ abstract class Definition
 
 		$this->command = $command;
 
+		return $this;
+	}
+
+	/**
+	 * @param callable(CompletionInput $input, CompletionSuggestions $suggestions, callable $default): void|string $completion
+	 * @return $this
+	 */
+	public function setCompletion(callable|string $completion): static
+	{
+		$this->completions['__ROOT'] = $completion;
+
+		return $this;
+	}
+
+	/**
+	 * @return array<string, callable|string>
+	 */
+	public function getCompletions(): array
+	{
+		return $this->completions;
+	}
+
+	/**
+	 * @param callable(CompletionInput $input, CompletionSuggestions $suggestions, callable $default): void|string $completion
+	 * @return $this
+	 */
+	public function addCompletion(string $argumentOrOption, callable|string $completion): static
+	{
+		$this->completions[$argumentOrOption] = $completion;
 		return $this;
 	}
 

@@ -2,6 +2,8 @@
 
 namespace Circli\Console;
 
+use Symfony\Component\Console\Completion\CompletionInput;
+use Symfony\Component\Console\Completion\CompletionSuggestions;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -28,6 +30,23 @@ final class Command extends \Symfony\Component\Console\Command\Command
 			$this->addUsage($usage);
 		}
 		$this->definition = $definition;
+	}
+
+	public function complete(CompletionInput $input, CompletionSuggestions $suggestions): void
+	{
+		$completions = $this->definition->getCompletions();
+		$fallback = fn () => parent::complete($input, $suggestions);
+		if (isset($completions[$input->getCompletionName()])) {
+			$completionCallable = $this->resolver->createCommand($completions[$input->getCompletionName()]);
+			$completionCallable($input, $suggestions, $fallback);
+		}
+		elseif (isset($completions['__ROOT'])) {
+			$completionCallable = $this->resolver->createCommand($completions['__ROOT']);
+			$completionCallable($input, $suggestions, $fallback);
+		}
+		else {
+			parent::complete($input, $suggestions);
+		}
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int
