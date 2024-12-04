@@ -40,7 +40,7 @@ trait InputTrait
 	 * @param string|list<string> $values
 	 * @param string|bool|int|float|mixed[]|null $default
 	 */
-	public function getParameterOption($values, $default = false, bool $onlyParams = false)
+	public function getParameterOption($values, $default = false, bool $onlyParams = false): mixed
 	{
 		if (!$this->input) {
 			return $default;
@@ -69,7 +69,7 @@ trait InputTrait
 		return $this->input->getArguments();
 	}
 
-	public function getArgument(string $name)
+	public function getArgument(string $name): mixed
 	{
 		if (!$this->input) {
 			throw new InvalidArgumentException(sprintf('The "%s" argument does not exist.', $name));
@@ -107,7 +107,7 @@ trait InputTrait
 	/**
 	 * @return mixed
 	 */
-	public function getOption(string $name)
+	public function getOption(string $name): mixed
 	{
 		if (!$this->input) {
 			throw new InvalidArgumentException(sprintf('The "%s" option does not exist.', $name));
@@ -142,5 +142,10 @@ trait InputTrait
 	public function setInteractive(bool $interactive): void
 	{
 		$this->input?->setInteractive($interactive);
+	}
+
+	public function __toString(): string
+	{
+		return $this->input?->__toString() ?? '';
 	}
 }
